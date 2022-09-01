@@ -130,30 +130,29 @@ def mars_facts():
 
     
 
-def hemispheres(browser):   
+def hemispheres(browser):
+    # 1. Use browser to visit the URL 
     url = 'https://marshemispheres.com/'
-    browser.visit(url + "index.html")
+
+    browser.visit(url + 'index.html')
 
     # 2. Create a list to hold the images and titles.
     hemisphere_image_urls = []
-    
 
+    #items = browser.find_by_css('a.product-item h3')
     # 3. Write code to retrieve the image urls and titles for each hemisphere.
     for i in range(4):
         #create empty dictionary
-        hemispheres = {}
-        #<img class="wide-image" src="images/f5e372a36edfa389625da6d0cc25d905_cerberus_enhanced.tif_full.jpg">
-        #<img class="wide-image" src="images/3778f7b43bbbc89d6e3cfabb3613ba93_schiaparelli_enhanced.tif_full.jpg">
+        #hemispheres = {}
         browser.find_by_css('a.product-item h3')[i].click()
-        # element = browser.find_by_text('Sample').first
-        # img_url = element['href']
-        # title = browser.find_by_css("h2.title").text
-        # hemispheres["img_url"] = img_url
-        # hemispheres["title"] = title
+        #element = browser.find_link_by_text('Sample').first
+        #img_url = element['href']
+        #title = browser.find_by_css("h2.title").text
+        #hemispheres["img_url"] = img_url
+        #hemispheres["title"] = title
         hemisphere_data = scrape_hemisphere(browser.html)
-        # Find sample Image link
-        #Add Objects to hemisphere_img_urls list
-        hemisphere_image_urls.append(hemispheres)
+        hemisphere_data["img_url"] =  url + hemisphere_data["img_url"]
+        hemisphere_image_urls.append(hemisphere_data)
         browser.back()
     return hemisphere_image_urls
 
@@ -173,12 +172,13 @@ def scrape_hemisphere(html_text):
         "title": title_elem,
         "img_url": sample_elem
     }
-    return scrape_hemisphere
+    return hemispheres
 
 if __name__ == "__main__":
 
     # If running as script, print scraped data
-    print(scrape_all())   
+    # print(scrape_all())   
+    scrape_all()
 
 
 
